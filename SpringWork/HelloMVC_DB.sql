@@ -23,34 +23,8 @@ CREATE TABLE MEMBER (
 
 
 
-INSERT INTO MEMBER (
-    mNO, 
-    ID, 
-    PASSWORD, 
-    ROLE,
-    NAME, 
-    PHONE, 
-    EMAIL, 
-    ADDRESS, 
-    HOBBY, 
-    STATUS, 
-    ENROLL_DATE, 
-    MODIFY_DATE
-) VALUES(
-    0, 
-    'admin', 
-    '1234', 
-    'ROLE_ADMIN', 
-    '관리자', 
-    '010-1234-4341', 
-    'admin@test.com', 
-    '서울시 강남구 역삼동',
-    DEFAULT,
-    DEFAULT,
-    DEFAULT,
-    DEFAULT
-);
-
+INSERT INTO MEMBER (mNO, ID,PASSWORD, ROLE, NAME, PHONE, EMAIL, ADDRESS, HOBBY, STATUS, ENROLL_DATE, MODIFY_DATE) 
+VALUES(0, 'admin', '1234', 'ROLE_ADMIN', '관리자', '010-1234-4341', 'admin@test.com', '서울시 강남구 역삼동', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
 COMMIT;
 
 SELECT * FROM MEMBER;
@@ -160,6 +134,27 @@ INSERT INTO REPLY VALUES(0, 3, 1, '반갑습니다.', DEFAULT, DEFAULT, DEFAULT)
 COMMIT;
 
 SELECT * FROM REPLY;
+
+-------------------------------------------------
+--------------- Notice 관련 테이블 ------------------
+-------------------------------------------------
+
+
+CREATE TABLE NOTICE (	
+    bNO INT AUTO_INCREMENT,
+    mNO INT, 
+	TITLE VARCHAR(1000), 
+	CONTENT VARCHAR(2000), 
+	TYPE VARCHAR(100), 
+	ORIGINAL_FILENAME VARCHAR(100), 
+	RENAMED_FILENAME VARCHAR(100), 
+	READCOUNT INT DEFAULT 0, 
+    STATUS VARCHAR(1) DEFAULT 'Y' CHECK (STATUS IN('Y', 'N')),
+    CREATE_DATE DATETIME  DEFAULT CURRENT_TIMESTAMP, 
+    MODIFY_DATE DATETIME  DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT PK_NOTICE_NO PRIMARY KEY(bNO),
+    CONSTRAINT FK_NOTICE_WRITER FOREIGN KEY(mNO) REFERENCES MEMBER(mNO) ON DELETE SET NULL
+);
 
 ----------------------------------- DDL 끝-------------------------------------------
 

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -48,6 +47,10 @@
 		<tr>
 			<th>작성자</th>
 			<td><c:out value="${board.writerId}"/></td>
+		</tr>
+		<tr>
+			<th>게시판</th>
+			<td><c:out value="${board.type}"/></td>
 		</tr>
 		<tr>
 			<th>조회수</th>
@@ -178,20 +181,3 @@
 		location.href = url + '?originName=' + originName + '&reName=' + reName;
 	}
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
