@@ -67,7 +67,7 @@
 		<nav>
 			<ul class="main-nav">
 				<li class="home"><a href="${path}">Home</a></li>		
-				<li class="notice"><a>공지사항</a></li>
+				<li class="notice"><a href="${path}/notice/list">공지사항</a></li>
 				<li class="board"><a href="${path}/board/list">게시판</a></li>
 				<c:if test="${ loginMember.role == 'ROLE_ADMIN' }">
 					<li class="admin-member">

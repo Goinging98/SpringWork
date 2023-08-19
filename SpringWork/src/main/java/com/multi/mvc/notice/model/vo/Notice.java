@@ -1,7 +1,6 @@
-package com.multi.mvc.board.model.vo;
+package com.multi.mvc.notice.model.vo;
 
 import java.util.Date;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,5 +22,4 @@ public class Notice {
 	private String status;
 	private Date createDate;
 	private Date modifyDate;
-	private List<Reply> replies;
 }

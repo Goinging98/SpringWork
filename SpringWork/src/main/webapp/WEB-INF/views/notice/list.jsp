@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -21,7 +20,7 @@
 
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="게시판" name="title"/>
+	<jsp:param value="공지사항" name="title"/>
 </jsp:include>
 
 
@@ -32,12 +31,14 @@
 
 <section id="content">
 	<div id="board-list-container">
-		<h2>자유 게시판</h2>
+		<h2>공지사항</h2>
 		
 		<!-- 글쓰기 버튼 -->			
-		<c:if test="${loginMember != null}">
-				<button type="button" id="btn-add" onclick="location.href='${path}/board/write'">글쓰기</button>
+		<c:if test="${ loginMember.role == 'ROLE_ADMIN' }">
+			<button type="button" id="btn-add" onclick="location.href='${path}/board/write'">글쓰기</button>
 		</c:if>
+		
+		
 		<!-- 검색창 시작 -->
 		<form name="searchForm" action="${path}/board/list" method="get">
 			<input type="hidden" name="page" value="1">
@@ -85,11 +86,8 @@
 			<c:if test="${not empty list}">
 				<c:forEach var="item" items="${list}">
 					<tr>
-<%-- 					<td>${item.no}</td> 이렇게 해도 되는데..			--%>
 						<td><c:out value="${item.bno}"/></td>
 						<td>
-							<!-- type ID / 실제 표현될 텍스트 -->
-							<!-- B1=일반, B2=질문, B3=공지 -->
 							<c:if test="${item.type == 'B1'}">
 							 	일반
 							</c:if>	
@@ -101,7 +99,7 @@
 							</c:if>	
 						</td>
 						<td>
-							<a href="${path}/board/view?no=${item.bno}">
+							<a href="${path}/notice/view?no=${item.bno}">
 								<c:out value="${item.title}"/>
 							</a>
 						</td>
@@ -124,13 +122,6 @@
 		
 		<!-- page부 시작 -->
 		<div align="center">
-			<%-- 
-			순수 페이지만 이동하는 코드
-			<!-- 처음 페이지 -->
-			<button onclick="location.href='${path}/board/list?page=1'">&lt;&lt;</button>
-			<!-- 이전 페이지 -->
-			<button onclick="location.href='${path}/board/list?page=${pageInfo.prevPage}'">&lt;</button>
-			--%>
 			
 			<!-- 처음 페이지 -->
 			<button onclick="movePage(1)">&lt;&lt;</button>
@@ -168,23 +159,3 @@
 		searchForm.submit();
 	}
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

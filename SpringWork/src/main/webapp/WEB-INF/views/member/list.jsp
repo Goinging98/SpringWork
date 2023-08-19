@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -21,7 +20,7 @@
 
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="게시판" name="title"/>
+	<jsp:param value="회원관리" name="title"/>
 </jsp:include>
 
 
@@ -32,90 +31,30 @@
 
 <section id="content">
 	<div id="board-list-container">
-		<h2>자유 게시판</h2>
-		
-		<!-- 글쓰기 버튼 -->			
-		<c:if test="${loginMember != null}">
-				<button type="button" id="btn-add" onclick="location.href='${path}/board/write'">글쓰기</button>
-		</c:if>
-		<!-- 검색창 시작 -->
-		<form name="searchForm" action="${path}/board/list" method="get">
-			<input type="hidden" name="page" value="1">
-			<div style="text-align: center;">
-				<label>
-					<input type="radio" name="searchType" value="title" 
-									${searchType == 'title' ? 'checked' : ''}> 제목
-				</label>
-				<label>
-					<input type="radio" name="searchType" value="content" 
-									${searchType == 'content' ? 'checked' : ''}> 내용
-				</label>
-				<label>
-					<input type="radio" name="searchType" value="writer" 
-									${searchType == 'writer' ? 'checked' : ''}> 작성자
-				</label>
+		<h2>회원 관리</h2>
 			
-				<span class="blue_window"> 
-					<input type="text" id="searchValue" name="searchValue" class="input_text" 
-									value="${param.searchValue}" />
-				</span>
-				<button type="submit" class="sch_smit">검색</button>
-			</div>
-		</form>		
-		<!-- 검색창 끝 -->
-		
-		<!-- 게시판 리스트 시작 -->	
+		<!-- 회원 리스트 시작 -->	
 		<table id="tbl-board">
 			<tr>
 				<th>번호</th>
-				<th>종류</th>
-				<th>제목</th>
-				<th>작성자</th>
-				<th>작성일</th>
-				<th>첨부파일</th>
-				<th>조회수</th>
+				<th>id</th>
+				<th>이름</th>
+				<th>가입일</th>
 			</tr>
 			
 			<c:if test="${empty list}">
 				<tr>
-					<td colspan="6">조회된 글이 없습니다.</td>
+					<td colspan="6">조회된 회원이 없습니다.</td>
 				</tr>
 			</c:if>
 			
 			<c:if test="${not empty list}">
 				<c:forEach var="item" items="${list}">
 					<tr>
-<%-- 					<td>${item.no}</td> 이렇게 해도 되는데..			--%>
-						<td><c:out value="${item.bno}"/></td>
-						<td>
-							<!-- type ID / 실제 표현될 텍스트 -->
-							<!-- B1=일반, B2=질문, B3=공지 -->
-							<c:if test="${item.type == 'B1'}">
-							 	일반
-							</c:if>	
-							<c:if test="${item.type == 'B2'}">
-							 	QnA
-							</c:if>	
-							<c:if test="${item.type == 'B3'}">
-							 	공지사항
-							</c:if>	
-						</td>
-						<td>
-							<a href="${path}/board/view?no=${item.bno}">
-								<c:out value="${item.title}"/>
-							</a>
-						</td>
-						<td><c:out value="${item.writerId}"/></td>
-						<td><fmt:formatDate type="date" value="${item.createDate}"/></td>
-						<td>
-							<c:if test="${item.originalFileName != null}">
-								<img alt="" src="${path}/resources/images/file.png">							
-							</c:if>						
-							<c:if test="${item.originalFileName == null}">
-								<span>-</span>							
-							</c:if>						
-						</td>
-						<td><c:out value="${item.readCount}"/></td>
+						<td><c:out value="${item.mno}"/></td>
+						<td><c:out value="${item.id}"/></td>
+						<td><c:out value="${item.name}"/></td>
+						<td><c:out value="${item.enrollDate}"/></td>
 					</tr>
 				</c:forEach>
 			</c:if>
@@ -168,23 +107,4 @@
 		searchForm.submit();
 	}
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

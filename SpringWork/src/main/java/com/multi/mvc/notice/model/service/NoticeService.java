@@ -11,42 +11,32 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.multi.mvc.board.model.vo.Board;
-import com.multi.mvc.board.model.vo.Reply;
 import com.multi.mvc.common.util.PageInfo;
 import com.multi.mvc.notice.model.mapper.NoticeMapper;
+import com.multi.mvc.notice.model.vo.Notice;
+import com.multi.mvc.notice.model.vo.NoticeRead;
 
 @Service
 public class NoticeService {
 	
-	// 1. DAO 사용시 선언
-//	@Autowired
-//	private BoardDao dao;
-//	@Autowired
-//	private SqlSessionTemplate sqlSession;
-	
-	// 2. Mapper 사용시 선언
 	@Autowired
 	private NoticeMapper mapper;
-
 	
-	public int getBoardCount(Map<String, Object> param) {
-		return mapper.selectBoardCount(param);
+	public int getNoticeCount(Map<String, Object> param) {
+		return mapper.selectNoticeCount(param);
 	}
 
-
-	public List<Board> getBoardList(PageInfo pageInfo, Map<String, Object> param) {
+	public List<Notice> selectNoticeList(PageInfo pageInfo, Map<String, Object> param) {
 		param.put("limit", pageInfo.getListLimit());
 		param.put("offset", (pageInfo.getStartList() - 1));
-		return mapper.selectBoardList(param);
+		return mapper.selectNoticeList(param);
 	}
 
-
-	public Board findByNo(int no) {
-		Board board = mapper.selectBoardByNo(no);
-		board.setReadCount(board.getReadCount() + 1);
-		mapper.updateReadCount(board);
-		return board;
+	public Notice findByNo(int no) {
+		Notice notice = mapper.selectNoticeByNo(no);
+		notice.setReadCount(notice.getReadCount() + 1);
+		mapper.updateReadCount(notice);
+		return notice;
 	}
 
 	private static int count = 0;
@@ -77,12 +67,12 @@ public class NoticeService {
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public int saveBoard(Board board) {
+	public int saveNotice(Notice notice) {
 		int result = 0;
-		if(board.getBno() == 0) {
-			result = mapper.insertBoard(board);
+		if(notice.getBno() == 0) {
+			result = mapper.insertNotice(notice);
 		} else {
-			result = mapper.updateBoard(board);
+			result = mapper.updateNotice(notice);
 		}
 		return result;
 	}
@@ -94,22 +84,22 @@ public class NoticeService {
 		}
 	}
 	
+	
+	public List<NoticeRead> selectNoticeReadList(int bno) {
+		return mapper.selectNoticeReadList(bno);
+	}
+	
+	
 	@Transactional(rollbackFor = Exception.class)
-	public int deleteBoard(int no, String savePath) {
-		Board board = mapper.selectBoardByNo(no);
-		deleteFile(savePath + "\\" + board.getRenamedFileName());
-		return mapper.deleteBoard(no);
+	public int deleteNotice(int no, String savePath) {
+		Notice notice = mapper.selectNoticeByNo(no);
+		deleteFile(savePath + "\\" + notice.getRenamedFileName());
+		return mapper.deleteNotice(no);
 	}
 
-	@Transactional(rollbackFor = Exception.class)
-	public int saveReply(Reply reply) {
-		return mapper.insertReply(reply);
-	}
-
-
-	@Transactional(rollbackFor = Exception.class)
-	public int deleteReply(int rno) {
-		return mapper.deleteReply(rno);
+	@Transactional()
+	public int insertNoticeRead(NoticeRead noticeRead) {
+		return mapper.insertNoticeRead(noticeRead);
 	}
 
 }

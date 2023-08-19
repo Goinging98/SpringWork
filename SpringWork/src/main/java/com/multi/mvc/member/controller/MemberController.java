@@ -1,6 +1,8 @@
 package com.multi.mvc.member.controller;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.multi.mvc.board.model.vo.Board;
+import com.multi.mvc.common.util.PageInfo;
 import com.multi.mvc.member.model.service.MemberService;
 import com.multi.mvc.member.model.vo.Member;
 
@@ -180,12 +185,22 @@ public class MemberController {
 		return "/common/msg";
 	}
 	
-	
-	// contoller에서 전체 Error 처리하는 핸들러 
-//	@ExceptionHandler(Exception.class)
-//	public String error() {
-//		return "/common/error";
-//	}
+
+	@RequestMapping(value = "/admin/member", method = RequestMethod.GET)
+	public String memberlist(Locale locale, Model model) {
+		log.info("@@@@@@@@@@@ selectAll : " + service.findAll());
+		int page = 1;
+		
+		int memberCount = service.getMemberCount();
+		PageInfo pageInfo = new PageInfo(page, 10, memberCount, 10); // 게시글이 보여지는 갯수 = 10
+		List<Member> list = service.findAll();
+//		System.out.println("list : " + list);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pageInfo", pageInfo);
+		
+		return "/member/list";
+	}
 }
 
 

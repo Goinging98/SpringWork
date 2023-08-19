@@ -25,6 +25,9 @@ public class MemberService {
 	public List<Member> findAll(){
 		return mapper.selectAll();
 	}
+	public int getMemberCount() {
+		return mapper.selectCount();
+	}
 
 	public Member login(String memberId, String memberPwd) {
 		Member member = mapper.selectMemberById(memberId);

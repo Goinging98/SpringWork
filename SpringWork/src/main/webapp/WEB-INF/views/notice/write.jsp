@@ -16,12 +16,12 @@
 
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="게시글 작성" name="title"/>
+	<jsp:param value="공지사항 작성" name="title"/>
 </jsp:include>
 
 
 <section id="board-write-container">
-	<h2 align="center">게시글 작성</h2>
+	<h2 align="center">공지사항 작성</h2>
 	<!-- enctype="multipart/form-data" : 파일 첨부를 할수 있는 html 옵션  -->
 	<form action="${path}/board/write" method="post" enctype="multipart/form-data" >
 		<table id="tbl-board">

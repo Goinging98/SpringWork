@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -28,65 +29,54 @@
 
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="게시글 상세조회" name="title"/>
+	<jsp:param value="공지사항 상세조회" name="title"/>
 </jsp:include>
 
 
 <section id="board-write-container">
-	<h2 align="center">게시글 상세조회</h2>
+	<h2 align="center">공지사항 상세조회</h2>
 	
 	<table id="tbl-board">
 		<tr>
 			<th>글번호</th>
-			<td><c:out value="${board.bno}"/></td>
+			<td><c:out value="${notice.bno}"/></td>
 		</tr>
 		<tr>
 			<th>제목</th>
-			<td><c:out value="${board.title}"/></td>
+			<td><c:out value="${notice.title}"/></td>
 		</tr>
 		<tr>
 			<th>종류</th>
-			<td>
-				<c:if test="${board.type == 'B1'}">
-				 	일반
-				</c:if>	
-				<c:if test="${board.type == 'B2'}">
-				 	QnA
-				</c:if>	
-				<c:if test="${board.type == 'B3'}">
-				 	공지사항
-				</c:if>				
-
-			</td>
+			<td>공지사항</td>
 		</tr>
 		<tr>
 			<th>작성자</th>
-			<td><c:out value="${board.writerId}"/></td>
+			<td><c:out value="${notice.writerId}"/></td>
 		</tr>
 		<tr>
 			<th>조회수</th>
-			<td><c:out value="${board.readCount}"/></td>
+			<td><c:out value="${notice.readCount}"/></td>
 		</tr>
 		<tr>
 			<th>작성 시간</th>
-			<td> <fmt:formatDate type="both" value="${board.createDate}"/> </td>
+			<td> <fmt:formatDate type="both" value="${notice.createDate}"/> </td>
 		</tr>
 		<tr>
 			<th>수정 시간</th>
-			<td> <fmt:formatDate type="both" value="${board.modifyDate}"/> </td>
+			<td> <fmt:formatDate type="both" value="${notice.modifyDate}"/> </td>
 		</tr>
 		<tr>
 			<th>첨부파일</th>
 			<td>
-				<c:if test="${not empty board.originalFileName}">
-					<a href="javascript:fileDownload('${board.originalFileName}',
-																'${board.renamedFileName}');">
+				<c:if test="${not empty notice.originalFileName}">
+					<a href="javascript:fileDownload('${notice.originalFileName}',
+																'${notice.renamedFileName}');">
 						<img src="${path}/resources/images/file.png" width="20" height="20"/>
-						<c:out value="${board.originalFileName}"></c:out>		
+						<c:out value="${notice.originalFileName}"></c:out>		
 					</a>
 				</c:if>
 				
-				<c:if test="${empty board.originalFileName}">
+				<c:if test="${empty notice.originalFileName}">
 					<span> - </span>
 				</c:if>
 			</td>
@@ -94,11 +84,11 @@
 		<tr>
 			<th>첨부파일(이미지)</th>
 			<td>
-				<c:if test="${not empty board.originalFileName 
-								and (fn:contains(board.originalFileName,'.jpg')
-									 or fn:contains(board.originalFileName,'.png')
-									  or fn:contains(board.originalFileName,'.jpeg'))}">
-							<img src="${path}/resources/upload/board/${board.renamedFileName}"
+				<c:if test="${not empty notice.originalFileName 
+								and (fn:contains(notice.originalFileName,'.jpg')
+									 or fn:contains(notice.originalFileName,'.png')
+									  or fn:contains(notice.originalFileName,'.jpeg'))}">
+							<img src="${path}/resources/upload/notice/${notice.renamedFileName}"
 								width="100%" height="100%"/>
 				</c:if>
 			</td>
@@ -106,13 +96,13 @@
 		<tr>
 			<th>내용</th>
 			<td>
-				<textarea rows="15" cols="50" readonly><c:out value="${board.content}"/></textarea>
+				<textarea rows="15" cols="50" readonly><c:out value="${notice.content}"/></textarea>
 			</td>
 		</tr>
 		<!-- 수정 / 삭제 기능 -->
 		<tr>
 			<th colspan="2">
-				<c:if test="${not empty loginMember && (loginMember.id == board.writerId 
+				<c:if test="${not empty loginMember && (loginMember.id == notice.writerId 
 									|| loginMember.role == 'ROLE_ADMIN')}">
 					<button type="button" id="btnUpdate">수정</button>
 					<button type="button" id="btnDelete">삭제</button>
@@ -121,42 +111,24 @@
 		</tr>
 	</table>
 	
-	<!-- 리플 작성 Form -->
-	<div id="comment-container">
-    	<div class="comment-editor" align="center">
-    		<form action="${path}/board/reply" method="post">
-    			<input type="hidden" name="bno" value="${board.bno}" />
-    			<input type="hidden" name="writerId" value="${loginMember.id}" />
-				<textarea name="content" id="replyContent" cols="55" rows="3"></textarea>
-				<button type="submit" id="btn-insert">등록</button>	  	
-    		</form>
-    	</div>
-   	</div>
-   	
    	<!-- 리플 출력 -->
 	<table id="tbl-comment">
-		<c:if test="${!empty replyList}">
-			<c:forEach var="reply" items="${replyList}">
+		
+		<tr>
+			<td colspan="3" style="text-align: center;"><h3>읽은 사람 리스트</h3></td>
+		</tr>
+		<c:if test="${!empty readList}">
+			<c:forEach var="readInfo" items="${readList}">
 				<tr>
 					<td>
-						<sub class="comment-writer">${reply.writerId}</sub>
-						<sub class="comment-date"><fmt:formatDate type="both" value="${reply.createDate}"/></sub>	
-						<br>
-						<c:out value="${reply.content}"/>
+						<sub class="comment-writer">${readInfo.id}</sub>
+						<sub class="comment-writer">${readInfo.name}</sub>
+						<sub class="comment-date"><fmt:formatDate type="both" value="${readInfo.createDate}"/></sub>	
 					</td>
 					<td>
-						<c:if test="${ !empty loginMember && (loginMember.id == reply.writerId 	|| loginMember.role == 'ROLE_ADMIN') }">
-						<button class="btn-delete" onclick="deleteReply('${reply.rno}','${board.bno}');" >삭제</button>
-						</c:if>
 					</td>
 				</tr>
 			</c:forEach>
-		</c:if>
-		
-		<c:if test="${empty replyList}">
-			<tr>
-				<td colspan="3" style="text-align: center;">등록된 리플이 없습니다.</td>
-			</tr>
 		</c:if>
 	</table>
 </section>
@@ -169,12 +141,12 @@
 <script type="text/javascript">
 	$(document).ready(() => {
 		$("#btnUpdate").click((e) => {
-			location.href = "${path}/board/update?no=${board.bno}";
+			location.href = "${path}/notice/update?no=${notice.bno}";
 		});
 		
 		$("#btnDelete").click((e) => {
 			if(confirm("정말로 게시글을 삭제 하시겠습니까?")) {
-				location.replace("${path}/board/delete?no=${board.bno}");
+				location.replace("${path}/notice/delete?no=${notice.bno}");
 			}
 		});
 	});
