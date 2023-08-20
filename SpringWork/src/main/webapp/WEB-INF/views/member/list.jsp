@@ -33,7 +33,7 @@
 	<div id="board-list-container">
 		<h2>회원 관리</h2>
 			
-		<!-- 회원 리스트 시작 -->	
+		<%-- <!-- 회원 리스트 시작 -->	
 		<table id="tbl-board">
 			<tr>
 				<th>번호</th>
@@ -58,18 +58,11 @@
 					</tr>
 				</c:forEach>
 			</c:if>
-		</table>
+		</table> --%>
 		<!-- 게시판 리스트 끝 -->	
 		
 		<!-- page부 시작 -->
 		<div align="center">
-			<%-- 
-			순수 페이지만 이동하는 코드
-			<!-- 처음 페이지 -->
-			<button onclick="location.href='${path}/board/list?page=1'">&lt;&lt;</button>
-			<!-- 이전 페이지 -->
-			<button onclick="location.href='${path}/board/list?page=${pageInfo.prevPage}'">&lt;</button>
-			--%>
 			
 			<!-- 처음 페이지 -->
 			<button onclick="movePage(1)">&lt;&lt;</button>
