@@ -38,7 +38,6 @@
 			<button type="button" id="btn-add" onclick="location.href='${path}/board/write'">글쓰기</button>
 		</c:if>
 		
-		
 		<!-- 검색창 시작 -->
 		<form name="searchForm" action="${path}/board/list" method="get">
 			<input type="hidden" name="page" value="1">

@@ -91,9 +91,6 @@ public class NoticeController {
 		return "notice/view";
 	}
 	
-	
-	
-	
 	@GetMapping("/notice/error")
 	public String error() {
 		return "/common/error";

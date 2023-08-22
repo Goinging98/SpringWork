@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.multi.mvc.board.model.vo.Board;
 import com.multi.mvc.common.util.PageInfo;
 import com.multi.mvc.member.model.service.MemberService;
 import com.multi.mvc.member.model.vo.Member;
@@ -186,14 +185,14 @@ public class MemberController {
 	}
 	
 
-	/////////////////////////////// 관리자 페이지
+	////////////////////////////////////////////////////////////////////////////// 관리자 페이지
 	@RequestMapping(value = "/admin/member", method = RequestMethod.GET)
 	public String memberlist(Locale locale, Model model) {
 		log.info("selectAll : " + service.findAll());
 		int page = 1;
 		
 		int memberCount = service.getMemberCount();
-		PageInfo pageInfo = new PageInfo(page, 10, memberCount, 10); // 게시글이 보여지는 갯수 = 10
+		PageInfo pageInfo = new PageInfo(page, 10, memberCount, 10);
 		List<Member> list = service.findAll();
 		
 		model.addAttribute("list", list);
@@ -203,6 +202,7 @@ public class MemberController {
 	}
 	
 
+	// 관리자에게 보여지는 회원관리 페이지 
 	@RequestMapping(value = "/admin/member/view", method = RequestMethod.GET)
 	public String memberlistview(Locale locale, Model model, String id) {
 		Member member = service.findById(id);
@@ -213,7 +213,7 @@ public class MemberController {
 	}	
 	
 	
-	// 회원정보 수정
+	// 관리자가 회원정보 수정
 	@PostMapping("/admin/member/update")
 	public String updatemember(Model model, String id,
 			@ModelAttribute Member updateMember) {
@@ -235,6 +235,7 @@ public class MemberController {
 		return "common/msg";
 	}
 	
+	// 관리자가 회원 탈퇴 
 	@RequestMapping("/admin/member/delete")
 	public String deletemember(Model model, String id) {
 		Member member = service.findById(id);
@@ -251,25 +252,5 @@ public class MemberController {
 		return "/common/msg";
 	}
 	
-	
-	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

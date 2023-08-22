@@ -10,7 +10,6 @@ import com.multi.mvc.notice.model.vo.NoticeRead;
 
 @Mapper
 public interface NoticeMapper {
-	
 	List<Notice> selectNoticeList(Map<String, Object> map);
 	int selectNoticeCount(Map<String, Object> map);
 	Notice selectNoticeByNo(int bno);

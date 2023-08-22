@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -44,7 +43,7 @@
 						    <option value="B3" selected>공지사항</option>
 						</c:if>		
 					    <c:if test="${board.type != 'B3'}">
-						    <option value="B3">공지</option>
+						    <option value="B3">공지사항</option>
 						</c:if>		
 
 					</select>		
