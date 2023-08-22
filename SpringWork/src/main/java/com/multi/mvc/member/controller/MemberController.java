@@ -186,21 +186,73 @@ public class MemberController {
 	}
 	
 
+	/////////////////////////////// 관리자 페이지
 	@RequestMapping(value = "/admin/member", method = RequestMethod.GET)
 	public String memberlist(Locale locale, Model model) {
-		log.info("@@@@@@@@@@@ selectAll : " + service.findAll());
+		log.info("selectAll : " + service.findAll());
 		int page = 1;
 		
 		int memberCount = service.getMemberCount();
 		PageInfo pageInfo = new PageInfo(page, 10, memberCount, 10); // 게시글이 보여지는 갯수 = 10
 		List<Member> list = service.findAll();
-		System.out.println("list : " + list);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("pageInfo", pageInfo);
 		
 		return "/member/list";
 	}
+	
+
+	@RequestMapping(value = "/admin/member/view", method = RequestMethod.GET)
+	public String memberlistview(Locale locale, Model model, String id) {
+		Member member = service.findById(id);
+		System.out.println("id : "+ id );
+		model.addAttribute("item", member);
+
+		return "/member/listview";
+	}	
+	
+	
+	// 회원정보 수정
+	@PostMapping("/admin/member/update")
+	public String updatemember(Model model, String id,
+			@ModelAttribute Member updateMember) {
+		log.info("update 요청, updateMember : " + updateMember);
+		Member member = service.findById(id);
+		
+		updateMember.setMno(member.getMno()); // update가 되는 코드
+		int result = service.save(updateMember);
+		
+		if(result > 0) {
+			member = service.findById(member.getId());
+			model.addAttribute("member", member); // 세션을 업데이트 하는 코드
+			model.addAttribute("msg", "회원정보를 수정하였습니다.");
+			model.addAttribute("location","/admin/member/list");
+		} else {
+			model.addAttribute("msg", "회원정보 수정에 실패하였습니다.");
+			model.addAttribute("location","/admin/member/list");
+		}
+		return "common/msg";
+	}
+	
+	@RequestMapping("/admin/member/delete")
+	public String deletemember(Model model, String id) {
+		Member member = service.findById(id);
+		int result = service.delete(member.getMno());
+		
+		if(result > 0) {
+			model.addAttribute("msg", "회원탈퇴에 성공하였습니다.");
+			model.addAttribute("location", "/admin/member/list");
+		}else {
+			model.addAttribute("msg", "회원탈퇴를 할수 없습니다.");
+			model.addAttribute("location", "/admin/member/list");
+		}
+		
+		return "/common/msg";
+	}
+	
+	
+	
 }
 
 

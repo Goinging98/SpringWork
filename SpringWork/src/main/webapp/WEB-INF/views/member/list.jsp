@@ -52,7 +52,7 @@
 				<c:forEach var="item" items="${list}">
 					<tr>
 						<td><c:out value="${item.mno}"/></td>
-						<td><c:out value="${item.id}"/></td>
+						<td><a href="${path}/admin/member/view?id=${item.id}"><c:out value="${item.id}"/></a></td>
 						<td><c:out value="${item.name}"/></td>
 						<td><c:out value="${item.enrollDate}"/></td>
 					</tr>
