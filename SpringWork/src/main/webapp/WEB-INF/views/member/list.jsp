@@ -33,7 +33,7 @@
 	<div id="board-list-container">
 		<h2>회원 관리</h2>
 			
-		<%-- <!-- 회원 리스트 시작 -->	
+		<!-- 회원 리스트 시작 -->	
 		<table id="tbl-board">
 			<tr>
 				<th>번호</th>
@@ -58,7 +58,7 @@
 					</tr>
 				</c:forEach>
 			</c:if>
-		</table> --%>
+		</table> 
 		<!-- 게시판 리스트 끝 -->	
 		
 		<!-- page부 시작 -->

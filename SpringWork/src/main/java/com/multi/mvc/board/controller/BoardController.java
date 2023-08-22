@@ -68,7 +68,7 @@ public class BoardController {
 //		PageInfo pageInfo = new PageInfo(page, 10, boardCount, 15); // 게시글이 보여지는 갯수 = 15
 		PageInfo pageInfo = new PageInfo(page, 10, boardCount, 10); // 게시글이 보여지는 갯수 = 10
 		List<Board> list = service.getBoardList(pageInfo, param);
-//		System.out.println("list : " + list);
+		System.out.println("list : " + list);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("param", param);

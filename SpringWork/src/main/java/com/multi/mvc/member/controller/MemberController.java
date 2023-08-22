@@ -190,14 +190,14 @@ public class MemberController {
 	public String memberlist(Locale locale, Model model) {
 		log.info("@@@@@@@@@@@ selectAll : " + service.findAll());
 		int page = 1;
-//		
-//		int memberCount = service.getMemberCount();
-//		PageInfo pageInfo = new PageInfo(page, 10, memberCount, 10); // 게시글이 보여지는 갯수 = 10
-//		List<Member> list = service.findAll();
-////		System.out.println("list : " + list);
-//		
-//		model.addAttribute("list", list);
-//		model.addAttribute("pageInfo", pageInfo);
+		
+		int memberCount = service.getMemberCount();
+		PageInfo pageInfo = new PageInfo(page, 10, memberCount, 10); // 게시글이 보여지는 갯수 = 10
+		List<Member> list = service.findAll();
+		System.out.println("list : " + list);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pageInfo", pageInfo);
 		
 		return "/member/list";
 	}
